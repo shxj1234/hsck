@@ -1,0 +1,25 @@
+name: update all json
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 6 * * *"
+
+jobs:
+  update:
+    runs-on: ubuntu-22.04
+
+    permissions:
+      contents: write
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Run PHP command
+      run: cd ./bin && php bin.php
+
+    - name: Commit changes
+      uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        commit_message: Update all.json
+        commit_options: '--no-verify'
