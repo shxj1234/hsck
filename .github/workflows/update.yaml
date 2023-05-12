@@ -2,7 +2,7 @@ name: update all json
 on:
   workflow_dispatch:
   schedule:
-    - cron: "20 10,24 * * *"
+    - cron:  '30 10,22 * * *'
 
 jobs:
   update:
