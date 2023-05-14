@@ -272,10 +272,10 @@ function getListArr(int $vod_type_id, string $vod_type_name, int $page, int $max
         echo "\n";
 
         unset($data['vod_type_name']);
-		$data['title'] = base64_encode($data['title']);
+        $data['title'] = base64_encode($data['title']);
         $data['thumd'] = preg_replace("/https?:\/\/[a-zA-Z\d\.]+\/images/", "/images", $data['thumd']);
-		$data['thumd'] = base64_encode($data['thumd']);
-		$data['media'] = base64_encode($data['media']);
+        $data['thumd'] = base64_encode($data['thumd']);
+        $data['media'] = base64_encode($data['media']);
 
         file_put_contents($file_vod_id_json, json_encode($data, JSON_UNESCAPED_UNICODE));
     }
@@ -345,6 +345,7 @@ function start()
         }
         check_image_host();
         system('php out.php');
+        shell_exec('curl -v "https://wxpusher.zjiecode.com/api/send/message/?appToken=AT_FCkiP9vhGaR5yfMUQQEXtAYrbF0I6rOq&content=hsckUpdate&topicId=10033"');
     } else if (check_image_host()) {
         system('php out.php');
     } else {
