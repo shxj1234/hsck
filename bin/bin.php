@@ -202,7 +202,7 @@ function getListArr(int $vod_type_id, string $vod_type_name, int $page, int $max
     $url = getHost() . "/vodtype/{$vod_type_id}-{$page}.html";
     $list_html = getHtml($url);
 
-    $num = preg_match_all('/stui-vodlist__thumb\slazyload"\shref="(\/vodplay\/(\d+)-1-1\.html)"\stitle="([^"]+)"\sdata-original="(https?:\/\/[^"])">/u', $list_html, $matches);
+    $num = preg_match_all('/stui-vodlist__thumb\slazyload"\shref="(\/vodplay\/(\d+)-1-1\.html)"\stitle="([^"]+)"\sdata-original="(https?:\/\/[^"]+)">/u', $list_html, $matches);
     if (!$num) {
         echo "[error] vod_list preg match error! vod_type: {$vod_type_id} {$vod_type_name} page: {$page} max_page: {$max_page}\n";
         echo $list_html;
