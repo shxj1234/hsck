@@ -14,6 +14,8 @@ $vod_list_max = [];
 
 $cookie = '572a0a9982db70b0b107d638369b0b95=81188b3b7556baf6e51ad1fd9c9c1e37';
 
+$wxpusher_apptoken = '';
+
 /**
  * 获取 html
  */
@@ -309,6 +311,7 @@ function start()
     ];
     global $vod_list_max;
     global $file_vod;
+    global $wxpusher_apptoken;
     $prev_vod_list_max = [];
     $vod_str = @file_get_contents($file_vod);
     if ($vod_str) {
@@ -345,19 +348,27 @@ function start()
         }
         check_image_host();
         system('php out.php');
-        shell_exec('curl -v "https://wxpusher.zjiecode.com/api/send/message/?appToken=AT_Uy6vwbhHwBl5oIr8gpL7n9NZTjMhY9Or&content=hsckUpdate&topicId=10033"');
+        shell_exec('curl -v "https://wxpusher.zjiecode.com/api/send/message/?appToken=' . $wxpusher_apptoken . '&content=hsckUpdate&topicId=10033"');
     } else if (check_image_host()) {
         system('php out.php');
-        shell_exec('curl -v "https://wxpusher.zjiecode.com/api/send/message/?appToken=AT_Uy6vwbhHwBl5oIr8gpL7n9NZTjMhY9Or&content=hsckImageUrlUpdate&uid=UID_xKkkEccqH4wC2CqOY48uCMYZqVWU"');
+        shell_exec('curl -v "https://wxpusher.zjiecode.com/api/send/message/?appToken=' . $wxpusher_apptoken . '&content=hsckImageUrlUpdate&uid=UID_xKkkEccqH4wC2CqOY48uCMYZqVWU"');
     } else {
         echo "no update!\n";
-        shell_exec('curl -v "https://wxpusher.zjiecode.com/api/send/message/?appToken=AT_Uy6vwbhHwBl5oIr8gpL7n9NZTjMhY9Or&content=hsckNoUpdate&uid=UID_xKkkEccqH4wC2CqOY48uCMYZqVWU"');
+        shell_exec('curl -v "https://wxpusher.zjiecode.com/api/send/message/?appToken=' . $wxpusher_apptoken . '&content=hsckNoUpdate&uid=UID_xKkkEccqH4wC2CqOY48uCMYZqVWU"');
     }
 }
 
+if (!getenv('WXPUSHER_APPTOKEN')) {
+    echo "[error] get out! FUCK YOU!\n";
+    exit(0);
+}
+
+$wxpusher_apptoken = getenv('WXPUSHER_APPTOKEN');
+
 if (!checkHost()) {
     echo "[error] check host error! script stop\n";
-    shell_exec('curl -v "https://wxpusher.zjiecode.com/api/send/message/?appToken=AT_Uy6vwbhHwBl5oIr8gpL7n9NZTjMhY9Or&content=hsckCheckHostError&uid=UID_xKkkEccqH4wC2CqOY48uCMYZqVWU"');
+    global $wxpusher_apptoken;
+    shell_exec('curl -v "https://wxpusher.zjiecode.com/api/send/message/?appToken=' . $wxpusher_apptoken . '&content=hsckCheckHostError&uid=UID_xKkkEccqH4wC2CqOY48uCMYZqVWU"');
     exit(0);
 }
 

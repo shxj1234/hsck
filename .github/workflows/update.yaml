@@ -2,7 +2,7 @@ name: update all json
 on:
   workflow_dispatch:
   schedule:
-    - cron:  '30 10,22 * * *'
+    - cron: "30 10,22 * * *"
 
 jobs:
   update:
@@ -12,14 +12,16 @@ jobs:
       contents: write
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Run PHP command
-      run: cd ./bin && php bin.php
+      - name: Run PHP command
+        env:
+          WXPUSHER_APPTOKEN: ${{ secrets.WXPUSHER_APPTOKEN }}
+        run: cd ./bin && php bin.php
 
-    - name: Commit changes
-      uses: stefanzweifel/git-auto-commit-action@v4
-      with:
-        commit_message: Update all.json
-        commit_options: '--no-verify'
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Update all.json
+          commit_options: "--no-verify"
